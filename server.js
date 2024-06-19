@@ -109,6 +109,12 @@ let localFilenamees=''
 if(!fs.existsSync(localdirectory)){
   fs.mkdirSync(localdirectory)
 }
+
+app.get('/',(req,res)=>{
+  res.json({
+    message:'Its Working Now'
+  })
+})
 app.post('/saveprofileimage',upload.single('image'),async(req,res)=>{
  try{
   const localFilename = `${localdirectory}/${Date.now()}_${req.file.originalname}`
