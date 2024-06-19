@@ -1,0 +1,53 @@
+const mongoose=require('mongoose')
+const userschema=new mongoose.Schema({
+  name:{
+    type:String,
+    required:true
+  },
+  avatar:{
+  public_id:String,
+  url:String
+  },
+  email:{
+    type:String,
+    required:true,
+  },
+  password:{
+    type:String,
+    required:true,
+    minlength:6,
+  },
+  post:[
+     {
+        type:mongoose.Schema.ObjectId,
+        ref:'Post'
+     }
+  ],
+  followers:[
+    {
+        type:mongoose.Schema.ObjectId,
+        ref:'User'
+    }
+  ],
+  following:[
+    {
+        type:mongoose.Schema.ObjectId,
+        ref:'User'
+    }
+  ],
+  partialfollowing:[
+    {
+      type:mongoose.Schema.ObjectId,
+      ref:'User'
+    }
+  ],
+  partialfollowers:[
+    {
+      type:mongoose.Schema.ObjectId,
+      ref:'User'
+    }
+  ]
+
+})
+
+module.exports=mongoose.model("User",userschema)
