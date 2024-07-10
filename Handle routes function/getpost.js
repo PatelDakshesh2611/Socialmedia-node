@@ -2,6 +2,7 @@ const postmodel=require('../models/post')
 const usermodel=require('../models/user')
 exports.getpost=async(req,res)=>{
 try{
+    
     const userid=req.params
     
     //below function check whether a particular post has your like or not
@@ -66,9 +67,8 @@ try{
        }
       
        return({...u,user,comments:newcomments,likes:newlikess,likestatus:likestatus,likescount:likescount})
-    }))
-    
-    res.status(200).json({postdata:newdata})
+    }))    
+    res.status(200).json({postdata:newdata.slice((req.query.page-1)*req.query.limit,req.query.limit*req.query.page)})
 }
 catch(e){
   res.sendStatus(400)
