@@ -74,7 +74,7 @@ try{
     
     const findIsInFollowersOrFollowing=()=>{
      const new_data= newdata.filter((u)=>{               
-          if(user.followers.includes(u.owner) || user.following.includes(u.owner)){           
+          if(user.followers.includes(u.owner) || user.following.includes(u.owner) || u.owner==userid.id){           
              return u
           }
       })
