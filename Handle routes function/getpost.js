@@ -68,7 +68,21 @@ try{
       
        return({...u,user,comments:newcomments,likes:newlikess,likestatus:likestatus,likescount:likescount})
     }))    
-    res.status(200).json({postdata:newdata.slice((req.query.page-1)*req.query.limit,req.query.limit*req.query.page)})
+    // console.log(newdata)
+    // console.log(userid)
+    const user = await usermodel.findById(userid.id).select('following followers');
+    
+    const findIsInFollowersOrFollowing=()=>{
+     const new_data= newdata.filter((u)=>{               
+          if(user.followers.includes(u.owner) || user.following.includes(u.owner)){           
+             return u
+          }
+      })
+     return new_data
+    }
+    const final_Material=findIsInFollowersOrFollowing()
+    // console.log(user)  
+    res.status(200).json({postdata:final_Material.slice((req.query.page-1)*req.query.limit,req.query.limit*req.query.page)})
 }
 catch(e){
   res.sendStatus(400)

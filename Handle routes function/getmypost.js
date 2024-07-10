@@ -74,7 +74,7 @@ exports.getmypost=async(req,res)=>{
       
        return({...u,user,comments:newcomments,likes:newlikess,likestatus:likestatus,likescount:likescount})
     }))
-
+   
     res.status(200).json({postdata:newdata})
 
 
