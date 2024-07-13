@@ -1,7 +1,6 @@
 //importing libraries
 const express=require('express')
 const { default: mongoose, mongo } = require('mongoose')
-const app=express()
 const multer=require('multer')
 const path=require('path')
 const cors=require('cors')
@@ -21,13 +20,25 @@ const usermodel=require('./models/user')
 const deletepermanently=require("./Handle routes function/deleteaccountper").default
 const getpost=require('./Handle routes function/getpost')
 const deletecomment=require('./Handle routes function/deletecomments').default
+const socketLogic=require('./Handle routes function/handlesocket')
 const cloudinary = require('cloudinary').v2;
+const socketIo=require('socket.io')
+const {
+  createServer
+}=require('http')
+const {Server}=require('socket.io')
 const fs = require('fs');
 //code start from here
 
+const app = express();
 app.use(bodyParser.json())
 app.use(cors())
-
+const server = createServer(app); // Create an HTTP server
+const io =new Server(server,{
+  cors:{
+    origin:'*'
+  }
+}); // Attach Socket.IO to the server
 require('dotenv').config()
 
 //mongodb connection
@@ -178,8 +189,11 @@ app.post('/deleteaccount',(req,res)=>{
     deletepermanently(req,res)
 })
 
+socketLogic(io);
+const PORT=process.env.PORT
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 
-//server running on 4000
-app.listen(process.env.PORT,()=>{
-    console.log(`listening on port ${process.env.PORT}`)
 })
+
+
